@@ -10,6 +10,11 @@
 		B207DB45171148B70046B26E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B207DB44171148B70046B26E /* Foundation.framework */; };
 		B207DB48171148B70046B26E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B207DB47171148B70046B26E /* main.m */; };
 		B207DB4C171148B70046B26E /* Curriculum.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = B207DB4B171148B70046B26E /* Curriculum.1 */; };
+		B207DB5417114D4F0046B26E /* Student.m in Sources */ = {isa = PBXBuildFile; fileRef = B207DB5317114D4F0046B26E /* Student.m */; };
+		B207DB5717114D5E0046B26E /* Admin.m in Sources */ = {isa = PBXBuildFile; fileRef = B207DB5617114D5E0046B26E /* Admin.m */; };
+		B207DB5A17114D6C0046B26E /* Course.m in Sources */ = {isa = PBXBuildFile; fileRef = B207DB5917114D6C0046B26E /* Course.m */; };
+		B207DB5D171150120046B26E /* StudentService.m in Sources */ = {isa = PBXBuildFile; fileRef = B207DB5C171150120046B26E /* StudentService.m */; };
+		B207DB60171169320046B26E /* AdminService.m in Sources */ = {isa = PBXBuildFile; fileRef = B207DB5F171169320046B26E /* AdminService.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +36,16 @@
 		B207DB47171148B70046B26E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B207DB4A171148B70046B26E /* Curriculum-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Curriculum-Prefix.pch"; sourceTree = "<group>"; };
 		B207DB4B171148B70046B26E /* Curriculum.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Curriculum.1; sourceTree = "<group>"; };
+		B207DB5217114D4F0046B26E /* Student.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Student.h; sourceTree = "<group>"; };
+		B207DB5317114D4F0046B26E /* Student.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Student.m; sourceTree = "<group>"; };
+		B207DB5517114D5E0046B26E /* Admin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Admin.h; sourceTree = "<group>"; };
+		B207DB5617114D5E0046B26E /* Admin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Admin.m; sourceTree = "<group>"; };
+		B207DB5817114D6C0046B26E /* Course.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Course.h; sourceTree = "<group>"; };
+		B207DB5917114D6C0046B26E /* Course.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Course.m; sourceTree = "<group>"; };
+		B207DB5B171150120046B26E /* StudentService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StudentService.h; sourceTree = "<group>"; };
+		B207DB5C171150120046B26E /* StudentService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StudentService.m; sourceTree = "<group>"; };
+		B207DB5E171169320046B26E /* AdminService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdminService.h; sourceTree = "<group>"; };
+		B207DB5F171169320046B26E /* AdminService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdminService.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +89,16 @@
 			isa = PBXGroup;
 			children = (
 				B207DB47171148B70046B26E /* main.m */,
+				B207DB5E171169320046B26E /* AdminService.h */,
+				B207DB5F171169320046B26E /* AdminService.m */,
+				B207DB5217114D4F0046B26E /* Student.h */,
+				B207DB5317114D4F0046B26E /* Student.m */,
+				B207DB5B171150120046B26E /* StudentService.h */,
+				B207DB5C171150120046B26E /* StudentService.m */,
+				B207DB5517114D5E0046B26E /* Admin.h */,
+				B207DB5617114D5E0046B26E /* Admin.m */,
+				B207DB5817114D6C0046B26E /* Course.h */,
+				B207DB5917114D6C0046B26E /* Course.m */,
 				B207DB4B171148B70046B26E /* Curriculum.1 */,
 				B207DB49171148B70046B26E /* Supporting Files */,
 			);
@@ -140,6 +165,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				B207DB48171148B70046B26E /* main.m in Sources */,
+				B207DB5417114D4F0046B26E /* Student.m in Sources */,
+				B207DB5717114D5E0046B26E /* Admin.m in Sources */,
+				B207DB5A17114D6C0046B26E /* Course.m in Sources */,
+				B207DB5D171150120046B26E /* StudentService.m in Sources */,
+				B207DB60171169320046B26E /* AdminService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
