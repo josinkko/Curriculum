@@ -12,6 +12,7 @@
 #import "StudentService.h"
 #import "Course.h"
 #import "AdminService.h"
+#import "Session.h"
 
 int main(int argc, const char * argv[])
 {
@@ -38,6 +39,7 @@ int main(int argc, const char * argv[])
         NSMutableDictionary *class2 = [[NSMutableDictionary alloc] init];
         [class2 setObject:@"5/17/2013 10:15 AM" forKey:@"time"];
         [class2 setObject:@"matteboken 2" forKey:@"books"];
+       
         
 
         
@@ -47,15 +49,17 @@ int main(int argc, const char * argv[])
         [newadminservice addStudent:s1 toCourse:math];
         [newadminservice addStudent:s2 toCourse:math];
 
-        NSLog(@"------%@", [[[math classes] objectAtIndex:0] objectForKey:@"time"]); //får ut tiden för en visst lektionstollfälle, class
-        for (int i = 0; i < [[math classes] count]; i++) {
-            NSLog(@"%@", [[[math classes] objectAtIndex:i] objectForKey:@"books"]);
-        }
+        Session *ses1 = [[Session alloc] initWithCourse:math andTime:@"6/23/2013 3:15 PM" andBooks:@"hejsanboken"];
         
-        for (int i = 0; i < [[math students] count]; i++) {
-            NSLog(@"%@", [[[math students] objectAtIndex:i]firstName]);
-        }
+        [newadminservice saveSessionToDb:ses1];
         
+    //    NSLog(@"------  %@", [[[math classes] objectAtIndex:0] objectForKey:@"time"]); får ut tiden för en visst lektionstollfälle, class
+
+        [newadminservice saveCourseToDb:math];
+        
+        for (Student *s in [math students]) {
+            NSLog(@"hejhejhej");
+        }
 
         
         

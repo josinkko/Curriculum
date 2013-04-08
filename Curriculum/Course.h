@@ -12,8 +12,8 @@
 
 @interface Course : NSObject
 
-@property NSMutableArray *students;
-@property NSMutableArray *classes;
+@property NSMutableDictionary *students;
+@property NSMutableDictionary *classes;
 @property (nonatomic, copy) NSString *startDate;
 @property (nonatomic, copy) NSString *endDate;
 @property (nonatomic, copy) NSString *teacher;

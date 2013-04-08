@@ -9,6 +9,7 @@
 #import "Course.h"
 #import "Student.h"
 #import "Admin.h"
+#import "Session.h"
 
 
 @implementation Course
@@ -22,8 +23,8 @@
         self.endDate = enddate;
         self.teacher = Teacher;
         self.courseName = coursename;
-        self.students = [[NSMutableArray alloc] init];
-        self.classes = [[NSMutableArray alloc] init];
+        self.students = [[NSMutableDictionary alloc] init];
+        self.classes = [[NSMutableDictionary alloc] init];
     }
     return self;
 }

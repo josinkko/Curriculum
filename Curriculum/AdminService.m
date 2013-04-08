@@ -45,26 +45,92 @@
 
 - (BOOL) addStudent: (Student*) student toCourse: (Course *) course
 {
+    NSUInteger len = [[course students] count];
+    NSString *index = [NSString stringWithFormat:@"%lu", len + 1];
+    [[course students] setObject:student forKey:index];
     
-    [[course students] addObject:student];
-    
-    if ([course.students containsObject:student]) {
-        NSLog(@"succesfully added student to course.");
+    if ([[course students] objectForKey:index] != nil) {
+        NSLog(@"succesfully added student to nsdict of a course.");
         return YES;
     } else {
-        NSLog(@"error in adding student to course.");
         return NO;
     }
 }
 
 - (BOOL) addClass: (NSMutableDictionary *) Class toCourse: (Course *) course
 {
-    [[course classes] addObject:Class];
-    if ([course.classes containsObject:Class]) {
-        NSLog(@"successfully added class to course.");
+    NSUInteger len = [[course classes] count];
+    NSString *index = [NSString stringWithFormat:@"%lu", len + 1];
+    [[course classes] setObject:Class forKey:index];
+    
+    if ([[course classes] objectForKey:index] != nil) {
+        NSLog(@"succesfully added class to nsdict of a course.");
         return YES;
     } else {
-        NSLog(@"error in adding class to course.");
+        return NO;
+    }
+}
+- (BOOL) saveCourseToDb: (Course *) course
+
+{
+
+   
+    NSMutableDictionary *stringAsJson = [[NSMutableDictionary alloc] init];
+    stringAsJson[@"type"] = @"course";
+    stringAsJson[@"startdate"] = course.startDate;
+    stringAsJson[@"enddate"] = course.endDate;
+   // stringAsJson[@"students"] = course.students;
+    stringAsJson[@"coursename"] = course.courseName;
+    stringAsJson[@"teacher"] = course.teacher;
+    
+    NSURL *url = [NSURL URLWithString:@"http://127.0.0.1:5984/curriculumlocal"];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
+    
+    //NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+    NSData *postdata = [NSJSONSerialization dataWithJSONObject:stringAsJson options:0 error:nil];
+    
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"content-type"];
+    [request setHTTPBody:postdata];
+    NSURLResponse *resp;
+    NSError *err;
+    
+    [NSURLConnection sendSynchronousRequest:request returningResponse:&resp error:&err];
+    
+    if (err == nil) {
+        NSLog(@"saved course succesfully to db.");
+        return YES;
+    } else {
+        return NO;
+    }
+    
+}
+- (BOOL) saveSessionToDb: (Session *) session
+{
+    NSMutableDictionary *stringAsJson = [[NSMutableDictionary alloc] init];
+    stringAsJson[@"type"] = session.type;
+    stringAsJson[@"time"] = session.time;
+    stringAsJson[@"books"] = session.books;
+    stringAsJson[@"course"] = session.course;
+
+    NSURL *url = [NSURL URLWithString:@"http://127.0.0.1:5984/curriculumlocal"];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
+    
+    //NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+    NSData *postdata = [NSJSONSerialization dataWithJSONObject:stringAsJson options:0 error:nil];
+    
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"content-type"];
+    [request setHTTPBody:postdata];
+    NSURLResponse *resp;
+    NSError *err;
+    
+    [NSURLConnection sendSynchronousRequest:request returningResponse:&resp error:&err];
+    
+    if (err == nil) {
+        NSLog(@"saved session succesfully to db.");
+        return YES;
+    } else {
         return NO;
     }
 }
