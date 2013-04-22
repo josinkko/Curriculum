@@ -17,8 +17,9 @@
 @interface AdminService : NSObject
 
 - (BOOL) addAdministrator:(Admin *) admin;
-- (BOOL) saveCourseToDb: (Course *) course;
+- (BOOL) saveCourseToDb: (Course *) course withHttpMethod: (NSString*) httpMethod;
 - (BOOL) saveSessionToDb: (Session *) session;
 - (BOOL) addStudent: (Student*) student toCourse: (Course *) course;
-- (BOOL) addClass: (NSMutableDictionary *) Class toCourse: (Course *) course;
+- (BOOL) addSession: (Session*) session toCourse: (Course *) course;
+- (void) updateCourseInDb: (Course *) course withStudent: (Student *) student andSession: (Session *) session usingHttpMethod: (NSString*) httpMethod removeOrAdd: (NSString *) removeoradd;
 @end

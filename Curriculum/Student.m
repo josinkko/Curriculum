@@ -20,6 +20,7 @@
         self.age = Age;
         self->studentId = [[NSUUID UUID] UUIDString];
         self.type = @"student";
+        self.courses = [[NSMutableArray alloc] init];
     }
     return self;
 }

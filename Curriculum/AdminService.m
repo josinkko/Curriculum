@@ -36,7 +36,6 @@
     [NSURLConnection sendSynchronousRequest:request returningResponse:&resp error:&err];
     
     if (err == nil) {
-        NSLog(@"added admin succesfully.");
         return YES;
     } else {
         return NO;
@@ -45,51 +44,60 @@
 
 - (BOOL) addStudent: (Student*) student toCourse: (Course *) course
 {
-    NSUInteger len = [[course students] count];
-    NSString *index = [NSString stringWithFormat:@"%lu", len + 1];
-    [[course students] setObject:student forKey:index];
+    NSMutableDictionary *studentAsDict = [[NSMutableDictionary alloc] init];
+    studentAsDict[@"type"] = student.type;
+    studentAsDict[@"firstname"] = student.firstName;
+    studentAsDict[@"lastname"] = student.lastName;
+    studentAsDict[@"studentID"] = student.studentId;
+    [studentAsDict setObject:[NSNumber numberWithFloat:student.age] forKey:@"age"];
     
-    if ([[course students] objectForKey:index] != nil) {
-        NSLog(@"succesfully added student to nsdict of a course.");
+    [[student courses] addObject:course.courseName];
+    [[course students] addObject:studentAsDict];
+
+    
+    if ([[course students] containsObject:student]) {
+        
         return YES;
     } else {
         return NO;
     }
 }
 
-- (BOOL) addClass: (NSMutableDictionary *) Class toCourse: (Course *) course
+- (BOOL) addSession: (Session*) session toCourse: (Course *) course
 {
-    NSUInteger len = [[course classes] count];
-    NSString *index = [NSString stringWithFormat:@"%lu", len + 1];
-    [[course classes] setObject:Class forKey:index];
+    NSMutableDictionary *classAsDict = [[NSMutableDictionary alloc] init];
+    classAsDict[@"type"] = session.type;
+    classAsDict[@"coursename"] = session.course;
+    classAsDict[@"time"] = session.time;
+    classAsDict[@"books"] = session.books;
     
-    if ([[course classes] objectForKey:index] != nil) {
-        NSLog(@"succesfully added class to nsdict of a course.");
+    [[course classes] addObject:classAsDict];
+    
+    if ([[course classes] containsObject:classAsDict]) {
         return YES;
     } else {
         return NO;
     }
 }
-- (BOOL) saveCourseToDb: (Course *) course
-
+- (BOOL) saveCourseToDb: (Course *) course withHttpMethod: (NSString*) httpMethod
 {
-
-   
+    
     NSMutableDictionary *stringAsJson = [[NSMutableDictionary alloc] init];
     stringAsJson[@"type"] = @"course";
     stringAsJson[@"startdate"] = course.startDate;
     stringAsJson[@"enddate"] = course.endDate;
-   // stringAsJson[@"students"] = course.students;
+    stringAsJson[@"students"] = [course students];
+    stringAsJson[@"sessions"] = [course classes];
     stringAsJson[@"coursename"] = course.courseName;
     stringAsJson[@"teacher"] = course.teacher;
     
     NSURL *url = [NSURL URLWithString:@"http://127.0.0.1:5984/curriculumlocal"];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
     
-    //NSOperationQueue *queue = [[NSOperationQueue alloc]init];
     NSData *postdata = [NSJSONSerialization dataWithJSONObject:stringAsJson options:0 error:nil];
     
-    [request setHTTPMethod:@"POST"];
+    
+    [request setHTTPMethod:httpMethod];
     [request setValue:@"application/json" forHTTPHeaderField:@"content-type"];
     [request setHTTPBody:postdata];
     NSURLResponse *resp;
@@ -98,7 +106,6 @@
     [NSURLConnection sendSynchronousRequest:request returningResponse:&resp error:&err];
     
     if (err == nil) {
-        NSLog(@"saved course succesfully to db.");
         return YES;
     } else {
         return NO;
@@ -115,8 +122,6 @@
 
     NSURL *url = [NSURL URLWithString:@"http://127.0.0.1:5984/curriculumlocal"];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
-    
-    //NSOperationQueue *queue = [[NSOperationQueue alloc]init];
     NSData *postdata = [NSJSONSerialization dataWithJSONObject:stringAsJson options:0 error:nil];
     
     [request setHTTPMethod:@"POST"];
@@ -128,10 +133,104 @@
     [NSURLConnection sendSynchronousRequest:request returningResponse:&resp error:&err];
     
     if (err == nil) {
-        NSLog(@"saved session succesfully to db.");
         return YES;
     } else {
         return NO;
     }
+}
+- (void) updateCourseInDb: (Course *) course withStudent: (Student *) student andSession: (Session *) session usingHttpMethod: (NSString*) httpMethod removeOrAdd: (NSString *) removeoradd
+{
+    
+    NSMutableString *urlstring = [[NSMutableString alloc] init];
+    [urlstring appendString:@"http://127.0.0.1:5984/curriculumlocal/_design/myapp/_list/getvalues/courses?startkey=%22"];
+    NSString *coursename = course.courseName;
+    [urlstring appendString:coursename];
+    [urlstring appendString:@"%22&endkey=%22"];
+    [urlstring appendString:coursename];
+    [urlstring appendString:@"%22"];
+    
+    NSURL *url = [NSURL URLWithString:urlstring];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
+    
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *resp, NSData *data, NSError *error) {
+        id response = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+
+        NSString *ID = [[response objectAtIndex:0] valueForKeyPath:@"_id"];
+        NSString *revisionNumber = [[response objectAtIndex:0] valueForKeyPath:@"_rev"];
+        //prova gör course studenst till json och logga
+    
+        NSMutableString *urlstring2 = [[NSMutableString alloc] init];
+        [urlstring2 appendString:@"http://127.0.0.1:5984/curriculumlocal/"];
+        [urlstring2 appendString:ID];
+        [urlstring2 appendString:@"?rev="];
+        [urlstring2 appendString:revisionNumber];
+
+        NSURL *url = [NSURL URLWithString:urlstring2];
+        NSMutableURLRequest *request2 = [[NSMutableURLRequest alloc]initWithURL:url];
+        
+        if ([removeoradd isEqualToString:@"REMOVE"]) {
+            for (int i = 0; i < [[course students] count]; i++) {
+                if ([[[[course students] objectAtIndex:i] valueForKeyPath:@"firstname"] isEqualToString:[student firstName]]) {
+                    [[course students] removeObject:[[course students] objectAtIndex:i]];
+                }
+            }
+            for (int i = 0; i < [[course classes] count]; i++) {
+                if ([[[[course classes] objectAtIndex:i] valueForKeyPath:@"time"] isEqualToString:[session time]]) {
+                    [[course classes] removeObject:[[course classes] objectAtIndex:i]];
+                }
+            }
+        }
+        
+
+        
+        if ([removeoradd isEqualToString:@"ADD"]) {
+            if ([[course students] containsObject:student] != YES && student != nil) {
+                [self addStudent:student toCourse:course];
+                
+            } 
+            if ([[course classes] containsObject:session] != YES && session != nil) {
+                [self addSession:session toCourse:course];
+            }
+        }
+
+        
+        NSMutableDictionary *stringAsJson = [[NSMutableDictionary alloc] init];
+        stringAsJson[@"type"] = @"course";
+        stringAsJson[@"startdate"] = [[response objectAtIndex:0] valueForKeyPath:@"startdate"];
+        stringAsJson[@"enddate"] = [[response objectAtIndex:0] valueForKeyPath:@"enddate"];
+        stringAsJson[@"students"] = [course students];
+        stringAsJson[@"sessions"] = [course classes];
+        stringAsJson[@"coursename"] = [[response objectAtIndex:0] valueForKeyPath:@"coursename"];
+        stringAsJson[@"teacher"] = [[response objectAtIndex:0] valueForKeyPath:@"teacher"];
+        
+        NSData *responseAsJSON = [NSJSONSerialization dataWithJSONObject:stringAsJson options:NSJSONWritingPrettyPrinted error:nil];
+
+        [request2 setHTTPMethod:httpMethod];
+        [request2 setValue:@"application/json" forHTTPHeaderField:@"content-type"];
+        [request2 setHTTPBody:responseAsJSON];
+        
+        
+        NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+        
+        [NSURLConnection sendAsynchronousRequest:request2 queue:queue completionHandler:^(NSURLResponse *resp, NSData *data, NSError *error) {
+            id response = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+            NSLog(@"response: %@", response);
+            
+            
+        }];
+        
+        
+        
+        
+        
+        
+        
+
+
+    }];
+    
+     
 }
 @end

@@ -15,5 +15,7 @@
 typedef void(^OnCompletion)(id result, NSError *error);
 
 - (BOOL) addStudent:(Student *) student oncompletion:(OnCompletion) callback;
+- (void) viewTodaysSchedule: (Student *) student forCourse: (Course *) course completionHandler:(void(^)(NSArray *jobsByString)) matchingJobs;
+- (void) viewScheduleForWeek: (Student *) student forCourse: (Course *) course completionHandler:(void(^)(NSArray *jobsByString)) matchingJobs;
 
 @end

@@ -23,8 +23,8 @@
         self.endDate = enddate;
         self.teacher = Teacher;
         self.courseName = coursename;
-        self.students = [[NSMutableDictionary alloc] init];
-        self.classes = [[NSMutableDictionary alloc] init];
+        self.students = [[NSMutableArray alloc] init];
+        self.classes = [[NSMutableArray alloc] init];
     }
     return self;
 }

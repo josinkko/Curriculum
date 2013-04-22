@@ -9,10 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface Student : NSObject
-{
-    NSMutableArray *courses;
-}
 
+@property NSMutableArray *courses;
 @property (nonatomic, copy) NSString *type;
 @property (nonatomic, copy) NSString *firstName;
 @property (nonatomic, copy) NSString *lastName;
