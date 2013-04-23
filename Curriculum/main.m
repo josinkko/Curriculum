@@ -29,7 +29,7 @@ int main(int argc, const char * argv[])
         // Creating one new admin
         Admin *a1 = [[Admin alloc] initWithFirstName:@"gustaf" LastName:@"elbander"];
         AdminService *newadminservice = [[AdminService alloc] init];
-        //[newadminservice addAdministrator:a1];
+        [newadminservice addAdministrator:a1];
         
         NSString *startdate = @"5/15/2013 9:15 AM";
         NSString *enddate = @"6/15/2013 3:15 PM";
@@ -38,11 +38,15 @@ int main(int argc, const char * argv[])
         Course *math = [[Course alloc] initWithName:@"math 1" andStartDate:startdate andEndDate:enddate andTeacher:@"goran"];
         Course *english = [[Course alloc] initWithName:@"english1" andStartDate:startdate andEndDate:enddate andTeacher:@"hästen göran"];
 
+        // Saving students to Db
+        [new saveStudentToDb:s1];
+        [new saveStudentToDb:s2];
+       [new saveStudentToDb:s3];
+        [new saveStudentToDb:s4];
+        
         // Admin adding students to courses
-        [newadminservice addStudent:s1 toCourse:math];
-        [newadminservice addStudent:s2 toCourse:math];
         [newadminservice addStudent:s4 toCourse:math];
-        //[newadminservice addStudent:s3 toCourse:english];
+        [newadminservice addStudent:s3 toCourse:english];
         [newadminservice addStudent:s1 toCourse:english];
         [newadminservice addStudent:s4 toCourse:english];
 
@@ -74,10 +78,10 @@ int main(int argc, const char * argv[])
         [newadminservice addSession:ses6 toCourse:english];
         
         [newadminservice saveCourseToDb:english withHttpMethod:@"POST"]; // -- saving course to Db using POST
-        //[newadminservice saveCourseToDb:math withHttpMethod:@"POST"];
+        [newadminservice saveCourseToDb:math withHttpMethod:@"POST"];
 
         
-        // To view either schedule for today or schedule for whole week from today
+        // To view either schedule for today or schedule for one week starting today
        /* [new viewTodaysSchedule:s1 forCourse:english completionHandler:^(NSArray *responseData) {
             for (id session in responseData) {
                 NSLog(@"time: %@", [session valueForKeyPath:@"time"]);
@@ -95,15 +99,18 @@ int main(int argc, const char * argv[])
         }];*/
         
         
-        // To modify student or session-array 
-        [newadminservice updateCourseInDb:english withStudent:s3 andSession:nil usingHttpMethod:@"PUT" removeOrAdd:@"ADD"];
+        // To modify student or session-array - "ADD" to add, "REMOVE" to, guess what, remove.
+      //  [newadminservice updateCourseInDb:english withStudent:s3 andSession:nil usingHttpMethod:@"PUT" removeOrAdd:@"ADD"];
+        
+        // Send a message to one student -- for the moment only one message
+        [newadminservice sendMessage:@"Hej gulligullgull" ToStudent:s1];
+        
+        // Send a message to all students in particular course
+        [newadminservice sendMessageToAllStudents:@"hej alla studenter" inCourse:english];
     
         
         
         
-
-
-
         
         
     }

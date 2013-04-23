@@ -12,9 +12,9 @@
 #import "Course.h"
 
 @interface StudentService : NSObject
-typedef void(^OnCompletion)(id result, NSError *error);
 
-- (BOOL) addStudent:(Student *) student oncompletion:(OnCompletion) callback;
+
+- (BOOL) saveStudentToDb:(Student *) student;
 - (void) viewTodaysSchedule: (Student *) student forCourse: (Course *) course completionHandler:(void(^)(NSArray *jobsByString)) matchingJobs;
 - (void) viewScheduleForWeek: (Student *) student forCourse: (Course *) course completionHandler:(void(^)(NSArray *jobsByString)) matchingJobs;
 

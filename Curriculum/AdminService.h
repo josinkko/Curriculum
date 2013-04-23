@@ -22,4 +22,6 @@
 - (BOOL) addStudent: (Student*) student toCourse: (Course *) course;
 - (BOOL) addSession: (Session*) session toCourse: (Course *) course;
 - (void) updateCourseInDb: (Course *) course withStudent: (Student *) student andSession: (Session *) session usingHttpMethod: (NSString*) httpMethod removeOrAdd: (NSString *) removeoradd;
+- (BOOL) sendMessage: (NSString *) message ToStudent: (Student *) student;
+- (BOOL) sendMessageToAllStudents: (NSString *) message inCourse: (Course *) course;
 @end

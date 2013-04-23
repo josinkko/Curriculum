@@ -21,6 +21,7 @@
         self->studentId = [[NSUUID UUID] UUIDString];
         self.type = @"student";
         self.courses = [[NSMutableArray alloc] init];
+        self.messages = [[NSMutableArray alloc] init];
     }
     return self;
 }

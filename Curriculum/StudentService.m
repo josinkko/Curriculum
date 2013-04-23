@@ -16,7 +16,7 @@
 {
     return nil;
 }
-- (BOOL) addStudent:(Student *) student oncompletion:(OnCompletion) callback
+- (BOOL) saveStudentToDb:(Student *) student
 {
    
     NSMutableDictionary *stringAsJson = [[NSMutableDictionary alloc] init];
@@ -25,11 +25,12 @@
     stringAsJson[@"lastname"] = student.lastName;
     stringAsJson[@"studentID"] = student.studentId;
     [stringAsJson setObject:[NSNumber numberWithFloat:student.age] forKey:@"age"];
+    stringAsJson[@"courses"] = [student courses];
+    stringAsJson[@"messages"] = [student messages];
     
     NSURL *url = [NSURL URLWithString:@"http://127.0.0.1:5984/curriculumlocal"];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
-    
-   // NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+
     NSData *postdata = [NSJSONSerialization dataWithJSONObject:stringAsJson options:0 error:nil];
     
     [request setHTTPMethod:@"POST"];
@@ -41,6 +42,7 @@
     
     [NSURLConnection sendSynchronousRequest:request returningResponse:&resp error:&err];
     if (err == nil) {
+        NSLog(@"saved student to Db.");
         return YES;
     } else {
         return NO;
@@ -51,6 +53,7 @@
 
 - (void) viewTodaysSchedule: (Student *) student forCourse: (Course *) course completionHandler:(void(^)(NSArray *responseData)) callback
 {
+
 
     NSURL *url = [NSURL URLWithString:@"http://127.0.0.1:5984/curriculumlocal/_design/myapp/_list/getvalues/sessions"];
     
@@ -77,18 +80,18 @@
                NSArray *todaysDateSplitted = [todaysDate componentsSeparatedByString:@" "];
                 if ([[todaysDateSplitted objectAtIndex:0] isEqualTo:[listItems objectAtIndex:0]]) {
                     [todaysSessions addObject:[response objectAtIndex:i]];
+                    
                 }
             }
         }
         callback(todaysSessions);
-        
     }];
+    
     
 }
 
 - (void) viewScheduleForWeek: (Student *) student forCourse: (Course *) course completionHandler:(void(^)(NSArray *responseData)) callback
 {
-    
     
     NSURL *url = [NSURL URLWithString:@"http://127.0.0.1:5984/curriculumlocal/_design/myapp/_list/getvalues/sessions"];
     

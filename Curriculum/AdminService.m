@@ -49,17 +49,18 @@
     studentAsDict[@"firstname"] = student.firstName;
     studentAsDict[@"lastname"] = student.lastName;
     studentAsDict[@"studentID"] = student.studentId;
+    studentAsDict[@"messages"] = [student messages];
     [studentAsDict setObject:[NSNumber numberWithFloat:student.age] forKey:@"age"];
     
     [[student courses] addObject:course.courseName];
     [[course students] addObject:studentAsDict];
 
-    
-    if ([[course students] containsObject:student]) {
-        
-        return YES;
-    } else {
-        return NO;
+    for (int i = 0; i < [[course students] count]; i++) {
+        if ([[[[course students] objectAtIndex:i] valueForKeyPath:@"firstname"] isEqualToString:[student firstName]]) {
+            return YES;
+        } else {
+            return NO;
+        }
     }
 }
 
@@ -81,6 +82,12 @@
 }
 - (BOOL) saveCourseToDb: (Course *) course withHttpMethod: (NSString*) httpMethod
 {
+    NSString *coursename = course.courseName;
+    NSArray *componentsSeparatedByWhiteSpace = [coursename componentsSeparatedByString:@" "];
+    if ([componentsSeparatedByWhiteSpace count] > 1) {
+        NSLog(@"Error in saving course to DB: No whitespaces allowed in coursename. Please correct and try again.");
+        return NO;
+    }
     
     NSMutableDictionary *stringAsJson = [[NSMutableDictionary alloc] init];
     stringAsJson[@"type"] = @"course";
@@ -88,7 +95,7 @@
     stringAsJson[@"enddate"] = course.endDate;
     stringAsJson[@"students"] = [course students];
     stringAsJson[@"sessions"] = [course classes];
-    stringAsJson[@"coursename"] = course.courseName;
+    stringAsJson[@"coursename"] = coursename;
     stringAsJson[@"teacher"] = course.teacher;
     
     NSURL *url = [NSURL URLWithString:@"http://127.0.0.1:5984/curriculumlocal"];
@@ -159,8 +166,7 @@
 
         NSString *ID = [[response objectAtIndex:0] valueForKeyPath:@"_id"];
         NSString *revisionNumber = [[response objectAtIndex:0] valueForKeyPath:@"_rev"];
-        //prova gör course studenst till json och logga
-    
+
         NSMutableString *urlstring2 = [[NSMutableString alloc] init];
         [urlstring2 appendString:@"http://127.0.0.1:5984/curriculumlocal/"];
         [urlstring2 appendString:ID];
@@ -182,8 +188,6 @@
                 }
             }
         }
-        
-
         
         if ([removeoradd isEqualToString:@"ADD"]) {
             if ([[course students] containsObject:student] != YES && student != nil) {
@@ -218,19 +222,88 @@
             id response = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
             NSLog(@"response: %@", response);
             
+        }];
+    }];
+}
+- (BOOL) sendMessage: (NSString *) message ToStudent: (Student *) student
+{
+
+    
+    NSMutableString *urlstring = [[NSMutableString alloc] init];
+    [urlstring appendString:@"http://127.0.0.1:5984/curriculumlocal/_design/myapp/_list/getvalues/students?startkey=%22"];
+    NSString *studentName = student.firstName;
+    [urlstring appendString:studentName];
+    [urlstring appendString:@"%22&endkey=%22"];
+    [urlstring appendString:studentName];
+    [urlstring appendString:@"%22"];
+    
+    NSURL *url = [NSURL URLWithString:urlstring];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
+    
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *resp, NSData *data, NSError *error) {
+        id response = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        
+        NSString *ID = [[response objectAtIndex:0] valueForKeyPath:@"_id"];
+        NSString *revisionNumber = [[response objectAtIndex:0] valueForKeyPath:@"_rev"];
+        
+        NSMutableString *urlstring2 = [[NSMutableString alloc] init];
+        [urlstring2 appendString:@"http://127.0.0.1:5984/curriculumlocal/"];
+        [urlstring2 appendString:ID];
+        [urlstring2 appendString:@"?rev="];
+        [urlstring2 appendString:revisionNumber];
+        
+        NSURL *url = [NSURL URLWithString:urlstring2];
+        NSMutableURLRequest *request2 = [[NSMutableURLRequest alloc]initWithURL:url];
+
+        [[student messages] addObject:message];
+        
+        NSMutableDictionary *stringAsJson = [[NSMutableDictionary alloc] init];
+        stringAsJson[@"type"] = @"student";
+        stringAsJson[@"firstname"] = [[response objectAtIndex:0] valueForKeyPath:@"firstname"];
+        stringAsJson[@"lastname"] = [[response objectAtIndex:0] valueForKeyPath:@"lastname"];
+        stringAsJson[@"messages"] = [student messages];
+        stringAsJson[@"studentId"] = [student studentId];
+        [stringAsJson setObject:[NSNumber numberWithFloat:student.age] forKey:@"age"];
+        
+        NSData *responseAsJSON = [NSJSONSerialization dataWithJSONObject:stringAsJson options:NSJSONWritingPrettyPrinted error:nil];
+        
+        [request2 setHTTPMethod:@"PUT"];
+        [request2 setValue:@"application/json" forHTTPHeaderField:@"content-type"];
+        [request2 setHTTPBody:responseAsJSON];
+        
+        NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+        
+        [NSURLConnection sendAsynchronousRequest:request2 queue:queue completionHandler:^(NSURLResponse *resp, NSData *data, NSError *error) {
+            NSLog(@"new message for student: %@. message: %@", student.firstName, message);
             
         }];
-        
-        
-        
-        
-        
-        
-        
-
-
     }];
     
-     
+    if ([[student messages] containsObject:message]) {
+        return YES;
+    } else {
+        return NO;
+    }
+    
+}
+
+- (BOOL) sendMessageToAllStudents: (NSString *) message inCourse: (Course *) course
+{
+ 
+   // NSLog(@"%@", [course students]);
+
+        
+    for (int i = 0; i < [[course students] count]; i++) {
+        NSString *firstname = [[[course students] objectAtIndex:i] valueForKeyPath:@"firstname"];
+        NSString *lastname = [[[course students] objectAtIndex:i] valueForKeyPath:@"lastname"];
+        Student *s = [[Student alloc] initWithFirstName:firstname LastName:lastname Age:0];
+        s.type = [[[course students] objectAtIndex:i] valueForKeyPath:@"type"];
+        s.messages = [[[course students] objectAtIndex:i] valueForKeyPath:@"messages"];
+        [self sendMessage:message ToStudent:s];
+    }
+    
+    return YES;
 }
 @end

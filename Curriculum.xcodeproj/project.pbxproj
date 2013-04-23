@@ -16,6 +16,17 @@
 		B207DB5D171150120046B26E /* StudentService.m in Sources */ = {isa = PBXBuildFile; fileRef = B207DB5C171150120046B26E /* StudentService.m */; };
 		B207DB60171169320046B26E /* AdminService.m in Sources */ = {isa = PBXBuildFile; fileRef = B207DB5F171169320046B26E /* AdminService.m */; };
 		B207DB631713011E0046B26E /* Session.m in Sources */ = {isa = PBXBuildFile; fileRef = B207DB621713011E0046B26E /* Session.m */; };
+		B24A0DA617258B14008296BF /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B24A0DA517258B14008296BF /* SenTestingKit.framework */; };
+		B24A0DA817258B14008296BF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B24A0DA717258B14008296BF /* Cocoa.framework */; };
+		B24A0DB217258B14008296BF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B24A0DB017258B14008296BF /* InfoPlist.strings */; };
+		B24A0DB517258B14008296BF /* CurriculumTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B24A0DB417258B14008296BF /* CurriculumTests.m */; };
+		B24A0DBA17259081008296BF /* AdminService.m in Sources */ = {isa = PBXBuildFile; fileRef = B207DB5F171169320046B26E /* AdminService.m */; };
+		B24A0DBB17259086008296BF /* Session.m in Sources */ = {isa = PBXBuildFile; fileRef = B207DB621713011E0046B26E /* Session.m */; };
+		B24A0DBC1725908C008296BF /* Student.m in Sources */ = {isa = PBXBuildFile; fileRef = B207DB5317114D4F0046B26E /* Student.m */; };
+		B24A0DBD17259090008296BF /* StudentService.m in Sources */ = {isa = PBXBuildFile; fileRef = B207DB5C171150120046B26E /* StudentService.m */; };
+		B24A0DBE17259094008296BF /* Admin.m in Sources */ = {isa = PBXBuildFile; fileRef = B207DB5617114D5E0046B26E /* Admin.m */; };
+		B24A0DBF17259099008296BF /* Course.m in Sources */ = {isa = PBXBuildFile; fileRef = B207DB5917114D6C0046B26E /* Course.m */; };
+		B24A0DC0172590A1008296BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B207DB47171148B70046B26E /* main.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,6 +60,17 @@
 		B207DB5F171169320046B26E /* AdminService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdminService.m; sourceTree = "<group>"; };
 		B207DB611713011E0046B26E /* Session.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Session.h; sourceTree = "<group>"; };
 		B207DB621713011E0046B26E /* Session.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Session.m; sourceTree = "<group>"; };
+		B24A0DA417258B14008296BF /* CurriculumTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CurriculumTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B24A0DA517258B14008296BF /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		B24A0DA717258B14008296BF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		B24A0DAA17258B14008296BF /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		B24A0DAB17258B14008296BF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		B24A0DAC17258B14008296BF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		B24A0DAF17258B14008296BF /* CurriculumTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CurriculumTests-Info.plist"; sourceTree = "<group>"; };
+		B24A0DB117258B14008296BF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B24A0DB317258B14008296BF /* CurriculumTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CurriculumTests.h; sourceTree = "<group>"; };
+		B24A0DB417258B14008296BF /* CurriculumTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CurriculumTests.m; sourceTree = "<group>"; };
+		B24A0DB617258B14008296BF /* CurriculumTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CurriculumTests-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +82,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B24A0DA017258B14008296BF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B24A0DA617258B14008296BF /* SenTestingKit.framework in Frameworks */,
+				B24A0DA817258B14008296BF /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -67,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				B207DB46171148B70046B26E /* Curriculum */,
+				B24A0DAD17258B14008296BF /* CurriculumTests */,
 				B207DB43171148B70046B26E /* Frameworks */,
 				B207DB42171148B70046B26E /* Products */,
 			);
@@ -76,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				B207DB41171148B70046B26E /* Curriculum */,
+				B24A0DA417258B14008296BF /* CurriculumTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -84,6 +117,9 @@
 			isa = PBXGroup;
 			children = (
 				B207DB44171148B70046B26E /* Foundation.framework */,
+				B24A0DA517258B14008296BF /* SenTestingKit.framework */,
+				B24A0DA717258B14008296BF /* Cocoa.framework */,
+				B24A0DA917258B14008296BF /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -118,6 +154,36 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		B24A0DA917258B14008296BF /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B24A0DAA17258B14008296BF /* AppKit.framework */,
+				B24A0DAB17258B14008296BF /* CoreData.framework */,
+				B24A0DAC17258B14008296BF /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		B24A0DAD17258B14008296BF /* CurriculumTests */ = {
+			isa = PBXGroup;
+			children = (
+				B24A0DB317258B14008296BF /* CurriculumTests.h */,
+				B24A0DB417258B14008296BF /* CurriculumTests.m */,
+				B24A0DAE17258B14008296BF /* Supporting Files */,
+			);
+			path = CurriculumTests;
+			sourceTree = "<group>";
+		};
+		B24A0DAE17258B14008296BF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B24A0DAF17258B14008296BF /* CurriculumTests-Info.plist */,
+				B24A0DB017258B14008296BF /* InfoPlist.strings */,
+				B24A0DB617258B14008296BF /* CurriculumTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -137,6 +203,24 @@
 			productName = Curriculum;
 			productReference = B207DB41171148B70046B26E /* Curriculum */;
 			productType = "com.apple.product-type.tool";
+		};
+		B24A0DA317258B14008296BF /* CurriculumTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B24A0DB717258B14008296BF /* Build configuration list for PBXNativeTarget "CurriculumTests" */;
+			buildPhases = (
+				B24A0D9F17258B14008296BF /* Sources */,
+				B24A0DA017258B14008296BF /* Frameworks */,
+				B24A0DA117258B14008296BF /* Resources */,
+				B24A0DA217258B14008296BF /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CurriculumTests;
+			productName = CurriculumTests;
+			productReference = B24A0DA417258B14008296BF /* CurriculumTests.octest */;
+			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
@@ -160,9 +244,37 @@
 			projectRoot = "";
 			targets = (
 				B207DB40171148B70046B26E /* Curriculum */,
+				B24A0DA317258B14008296BF /* CurriculumTests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B24A0DA117258B14008296BF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B24A0DB217258B14008296BF /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B24A0DA217258B14008296BF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B207DB3D171148B70046B26E /* Sources */ = {
@@ -179,7 +291,33 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B24A0D9F17258B14008296BF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B24A0DC0172590A1008296BF /* main.m in Sources */,
+				B24A0DBF17259099008296BF /* Course.m in Sources */,
+				B24A0DBE17259094008296BF /* Admin.m in Sources */,
+				B24A0DBD17259090008296BF /* StudentService.m in Sources */,
+				B24A0DBC1725908C008296BF /* Student.m in Sources */,
+				B24A0DBB17259086008296BF /* Session.m in Sources */,
+				B24A0DBA17259081008296BF /* AdminService.m in Sources */,
+				B24A0DB517258B14008296BF /* CurriculumTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		B24A0DB017258B14008296BF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B24A0DB117258B14008296BF /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		B207DB4D171148B70046B26E /* Debug */ = {
@@ -259,6 +397,32 @@
 			};
 			name = Release;
 		};
+		B24A0DB817258B14008296BF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CurriculumTests/CurriculumTests-Prefix.pch";
+				INFOPLIST_FILE = "CurriculumTests/CurriculumTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		B24A0DB917258B14008296BF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CurriculumTests/CurriculumTests-Prefix.pch";
+				INFOPLIST_FILE = "CurriculumTests/CurriculumTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -276,6 +440,15 @@
 			buildConfigurations = (
 				B207DB50171148B70046B26E /* Debug */,
 				B207DB51171148B70046B26E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B24A0DB717258B14008296BF /* Build configuration list for PBXNativeTarget "CurriculumTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B24A0DB817258B14008296BF /* Debug */,
+				B24A0DB917258B14008296BF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
