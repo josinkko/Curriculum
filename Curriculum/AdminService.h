@@ -17,11 +17,12 @@
 @interface AdminService : NSObject
 
 - (BOOL) addAdministrator:(Admin *) admin;
-- (BOOL) saveCourseToDb: (Course *) course withHttpMethod: (NSString*) httpMethod;
+- (BOOL) saveCourseToDb: (Course *) course;
 - (BOOL) saveSessionToDb: (Session *) session;
 - (BOOL) addStudent: (Student*) student toCourse: (Course *) course;
 - (BOOL) addSession: (Session*) session toCourse: (Course *) course;
 - (void) updateCourseInDb: (Course *) course withStudent: (Student *) student andSession: (Session *) session usingHttpMethod: (NSString*) httpMethod removeOrAdd: (NSString *) removeoradd;
 - (BOOL) sendMessage: (NSString *) message ToStudent: (Student *) student;
 - (BOOL) sendMessageToAllStudents: (NSString *) message inCourse: (Course *) course;
+- (BOOL) validateString: (NSString *) string;
 @end

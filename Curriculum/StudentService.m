@@ -10,6 +10,8 @@
 #import "Student.h"
 #import "Admin.h"
 #import "Course.h"
+#import "AdminService.h"
+#include "math.h"
 
 @implementation StudentService
 - (NSArray *) getAllStudents
@@ -18,7 +20,6 @@
 }
 - (BOOL) saveStudentToDb:(Student *) student
 {
-   
     NSMutableDictionary *stringAsJson = [[NSMutableDictionary alloc] init];
     stringAsJson[@"type"] = student.type;
     stringAsJson[@"firstname"] = student.firstName;
@@ -47,8 +48,6 @@
     } else {
         return NO;
     }
-    
- 
 }
 
 - (void) viewTodaysSchedule: (Student *) student forCourse: (Course *) course completionHandler:(void(^)(NSArray *responseData)) callback

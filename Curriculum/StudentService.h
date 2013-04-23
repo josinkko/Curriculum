@@ -15,7 +15,7 @@
 
 
 - (BOOL) saveStudentToDb:(Student *) student;
-- (void) viewTodaysSchedule: (Student *) student forCourse: (Course *) course completionHandler:(void(^)(NSArray *jobsByString)) matchingJobs;
-- (void) viewScheduleForWeek: (Student *) student forCourse: (Course *) course completionHandler:(void(^)(NSArray *jobsByString)) matchingJobs;
+- (void) viewTodaysSchedule: (Student *) student forCourse: (Course *) course completionHandler:(void(^)(NSArray *sessionsToday)) sessions;
+- (void) viewScheduleForWeek: (Student *) student forCourse: (Course *) course completionHandler:(void(^)(NSArray *sessionThisWeek)) sessions;
 
 @end

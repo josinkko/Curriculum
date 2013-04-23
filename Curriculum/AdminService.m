@@ -24,7 +24,6 @@
     NSURL *url = [NSURL URLWithString:@"http://127.0.0.1:5984/curriculumlocal"];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
     
-  //  NSOperationQueue *queue = [[NSOperationQueue alloc]init];
     NSData *postdata = [NSJSONSerialization dataWithJSONObject:stringAsJson options:0 error:nil];
     
     [request setHTTPMethod:@"POST"];
@@ -44,6 +43,7 @@
 
 - (BOOL) addStudent: (Student*) student toCourse: (Course *) course
 {
+    
     NSMutableDictionary *studentAsDict = [[NSMutableDictionary alloc] init];
     studentAsDict[@"type"] = student.type;
     studentAsDict[@"firstname"] = student.firstName;
@@ -80,7 +80,7 @@
         return NO;
     }
 }
-- (BOOL) saveCourseToDb: (Course *) course withHttpMethod: (NSString*) httpMethod
+- (BOOL) saveCourseToDb: (Course *) course
 {
     NSString *coursename = course.courseName;
     NSArray *componentsSeparatedByWhiteSpace = [coursename componentsSeparatedByString:@" "];
@@ -103,8 +103,7 @@
     
     NSData *postdata = [NSJSONSerialization dataWithJSONObject:stringAsJson options:0 error:nil];
     
-    
-    [request setHTTPMethod:httpMethod];
+    [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json" forHTTPHeaderField:@"content-type"];
     [request setHTTPBody:postdata];
     NSURLResponse *resp;
@@ -215,7 +214,6 @@
         [request2 setValue:@"application/json" forHTTPHeaderField:@"content-type"];
         [request2 setHTTPBody:responseAsJSON];
         
-        
         NSOperationQueue *queue = [[NSOperationQueue alloc] init];
         
         [NSURLConnection sendAsynchronousRequest:request2 queue:queue completionHandler:^(NSURLResponse *resp, NSData *data, NSError *error) {
@@ -228,7 +226,6 @@
 - (BOOL) sendMessage: (NSString *) message ToStudent: (Student *) student
 {
 
-    
     NSMutableString *urlstring = [[NSMutableString alloc] init];
     [urlstring appendString:@"http://127.0.0.1:5984/curriculumlocal/_design/myapp/_list/getvalues/students?startkey=%22"];
     NSString *studentName = student.firstName;
@@ -291,10 +288,6 @@
 
 - (BOOL) sendMessageToAllStudents: (NSString *) message inCourse: (Course *) course
 {
- 
-   // NSLog(@"%@", [course students]);
-
-        
     for (int i = 0; i < [[course students] count]; i++) {
         NSString *firstname = [[[course students] objectAtIndex:i] valueForKeyPath:@"firstname"];
         NSString *lastname = [[[course students] objectAtIndex:i] valueForKeyPath:@"lastname"];
@@ -303,7 +296,25 @@
         s.messages = [[[course students] objectAtIndex:i] valueForKeyPath:@"messages"];
         [self sendMessage:message ToStudent:s];
     }
-    
     return YES;
+}
+
+- (BOOL) validateString: (NSString *) string
+{
+    
+    NSString *detectedNumbers;
+    NSScanner *scanner = [NSScanner scannerWithString:string];
+    NSCharacterSet *numbers = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+    
+    [scanner scanUpToCharactersFromSet:numbers intoString:NULL];
+    [scanner scanCharactersFromSet:numbers intoString:&detectedNumbers];
+    
+    long number = [detectedNumbers integerValue];
+    if (number) {
+        NSLog(@"No numbers are allowed in strings. Please correct");
+        return NO;
+    } else {
+        return YES;
+    }
 }
 @end
