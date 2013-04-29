@@ -28,15 +28,15 @@ int main(int argc, const char * argv[])
         //Student *s4 = [[Student alloc] initWithFirstName:@"jonis" LastName:@"eklund" Age:11];
         
         // ---------- Creating one new admin and adminservice
-        //Admin *a1 = [[Admin alloc] initWithFirstName:@"gustaf" LastName:@"elbander"];
+        //Admin *a1 = [[Admin alloc] initWithFirstName:@"gustaf" LastName:@"elbander" andPassWord:@"gurra"];
         //AdminService *newadminservice = [[AdminService alloc] init];
-        //[newadminservice addAdministrator:a1];
+        //[newadminservice addAdministrator:[a1 adminToDict]];
 
-        // ---------- Creating a few courses localy.
+        // ---------- Creating a few course objects.
         //Course *math = [[Course alloc] initWithName:@"math 1" andStartDate:@"5/15/2013 9:15 AM" andEndDate:@"6/15/2013 3:15 PM" andTeacher:@"goran"];
         //Course *english = [[Course alloc] initWithName:@"english1" andStartDate:@"5/15/2013 9:15 AM" andEndDate:@"6/15/2013 3:15 PM" andTeacher:@"hästen göran"];
 
-        // ---------- Creating a Request-object for making post-request to the database
+        // ---------- Creating a Request-object for making requests to database and catching responses
         //Request *req = [[Request alloc] init];
         
         // ---------- Posting to Db with a Nsdict object as a parametre
@@ -48,7 +48,7 @@ int main(int argc, const char * argv[])
         //[newadminservice addStudent:s1 toCourse:english];
         //[newadminservice addStudent:s4 toCourse:english];
 
-        // ---------- Creating a few sessions localy
+        // ---------- Creating a few session objects
         //Session *ses1 = [[Session alloc] initWithCourse:math andTime:@"6/23/2013 3:15 PM" andBooks:@"hejsanboken"];
         //Session *ses2 = [[Session alloc] initWithCourse:math andTime:@"6/27/2013 1:15 PM" andBooks:@"matteboken"];
         //Session *ses3 = [[Session alloc] initWithCourse:math andTime:@"6/30/2013 2:15 PM" andBooks:@"jössesboken"];
@@ -57,10 +57,10 @@ int main(int argc, const char * argv[])
         //Session *ses5 = [[Session alloc] initWithCourse:english andTime:@"4/23/2013 1:15 PM" andBooks:@"trollboken"];
         //Session *ses6 = [[Session alloc] initWithCourse:english andTime:@"4/21/2013 2:15 PM" andBooks:@"hästboken"];
         
-        // ---------- saves session to Db
+        // ---------- Saving session to Db
         //[req postToDatabase:[ses1 sessionToDict]];
         
-        // ---------- adding session to local course object
+        // ---------- Adding session to local course object
         //[newadminservice addSession:ses1 toCourse:math];
         
         //[req postToDatabase:[ses2 sessionToDict]];
@@ -101,19 +101,25 @@ int main(int argc, const char * argv[])
         }];*/
         
         
-        // ---------- To modify student or session-array - "ADD" to add, "REMOVE" to, guess what, remove.
-        //[newadminservice updateCourseInDb:english withStudent:s3 andSession:nil usingHttpMethod:@"PUT" removeOrAdd:@"ADD"];
+        // ---------- For admin to update course in db - modify student or session-array, "ADD" to add, "REMOVE" to remove.
+        //[newadminservice updateCourseInDb:english withStudent:s3 andSession:nil removeOrAdd:@"ADD"];
         
-        // ---------- Send a message to one student -- for the moment only one message
+        // ---------- Send a message to one student
         // ---------- Putting message on a property called "messages" on the given student document.
         //[newadminservice sendMessage:@"Hej gulligullgull" ToStudent:s1];
+   
+        // ---------- Reading message of one student
+        /*[req getWithView:@"messages" andKey:[s1 firstName] completionHandler:^(NSArray *response) {
+            for (id message in response) {
+                NSLog(@"message for student: %@, message: %@", [s1 firstName], message);
+            }
+        }];*/
+        
         
         // ---------- Send a message to all students in particular course
         // ---------- Putting message on a property called "messages" on the given student document.
         //[newadminservice sendMessageToAllStudents:@"hej alla studenter" inCourse:english];
     
-        
-        
     }
     [[NSRunLoop currentRunLoop] run];
     return 0;

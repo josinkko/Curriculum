@@ -43,6 +43,36 @@
     
 }
 
+- (void) getWithView: (NSString *) view andKey: (NSString *) key completionHandler:(void(^)(NSArray *responseData)) callback
+{
+    NSMutableString *urlstring = [[NSMutableString alloc] init];
+    [urlstring appendString:@"http://127.0.0.1:5984/curriculumlocal/_design/myapp/_list/getvalues/"];
+    [urlstring appendString:view];
+    [urlstring appendString:@"?startkey=%22"];
+    [urlstring appendString:key];
+    [urlstring appendString:@"%22&endkey=%22"];
+    [urlstring appendString:key];
+    [urlstring appendString:@"%22"];
+    
+    NSURL *url = [NSURL URLWithString:urlstring];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
+    
+    [request setValue:@"application/json" forHTTPHeaderField:@"content-type"];
+    
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *resp, NSData *data, NSError *error) {
+        id response = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        
+        NSMutableArray *responseData = [[NSMutableArray alloc] init];
+        for (int i = 0; i < [response count]; i++) {
+            [responseData addObject:[response objectAtIndex:i]];
+        }
+        callback(responseData);
+        
+    }];
+}
+
 - (BOOL) postToDatabase: (NSDictionary *) postdata
 {
     NSURL *url = [NSURL URLWithString:@"http://127.0.0.1:5984/curriculumlocal"];

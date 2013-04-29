@@ -34,7 +34,7 @@
     NSString *coursename = self.courseName;
     NSArray *componentsSeparatedByWhiteSpace = [coursename componentsSeparatedByString:@" "];
     if ([componentsSeparatedByWhiteSpace count] > 1) {
-        NSLog(@"Error in saving course to DB: No whitespaces allowed in coursename. Please correct and try again.");
+        NSLog(@"Error: No whitespaces allowed in coursename. Please correct and try again.");
         return NO;
     }
     

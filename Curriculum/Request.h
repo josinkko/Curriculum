@@ -16,6 +16,7 @@
 
 @interface Request : NSObject
 - (BOOL) postToDatabase: (NSDictionary *) postdata;
+- (void) getWithView: (NSString *) view andKey: (NSString *) key completionHandler:(void(^)(NSArray *response)) response;
 - (void) getWithView: (NSString *) view completionHandler:(void(^)(NSArray *response)) response;
 
 

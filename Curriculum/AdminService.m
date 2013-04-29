@@ -18,7 +18,6 @@
     NSDictionary *studentAsDict = [student studentToDict];
     [[course students] addObject:studentAsDict];
     if ([[course students] containsObject:studentAsDict]) {
-        NSLog(@"succesfully added student to course");
         return YES;
     }
     return NO;
@@ -30,13 +29,12 @@
     [[course classes] addObject:sessionAsDict];
     
     if ([[course classes] containsObject:sessionAsDict]) {
-        NSLog(@"sucessfully added sess to course");
         return YES;
     }
     return NO;
 }
 
-- (void) updateCourseInDb: (Course *) course withStudent: (Student *) student andSession: (Session *) session removeOrAdd: (NSString *) removeoradd
+- (void) updateCourseInDb: (Course *) course withStudent: (Student *) student andSession: (Session *) session removeOrAdd: (NSString *) removeOrAdd
 {
     
     NSMutableString *urlstring = [[NSMutableString alloc] init];
@@ -67,7 +65,7 @@
         NSURL *url = [NSURL URLWithString:urlstring2];
         NSMutableURLRequest *request2 = [[NSMutableURLRequest alloc]initWithURL:url];
         
-        if ([removeoradd isEqualToString:@"REMOVE"]) {
+        if ([removeOrAdd isEqualToString:@"REMOVE"]) {
             for (int i = 0; i < [[course students] count]; i++) {
                 if ([[[[course students] objectAtIndex:i] valueForKeyPath:@"firstname"] isEqualToString:[student firstName]]) {
                     [[course students] removeObject:[[course students] objectAtIndex:i]];
@@ -80,7 +78,7 @@
             }
         }
         
-        if ([removeoradd isEqualToString:@"ADD"]) {
+        if ([removeOrAdd isEqualToString:@"ADD"]) {
             if ([[course students] containsObject:student] != YES && student != nil) {
                 [self addStudent:student toCourse:course];
                 
@@ -90,7 +88,6 @@
             }
         }
 
-        
         NSMutableDictionary *stringAsJson = [[NSMutableDictionary alloc] init];
         stringAsJson[@"type"] = @"course";
         stringAsJson[@"startdate"] = [[response objectAtIndex:0] valueForKeyPath:@"startdate"];
@@ -109,8 +106,6 @@
         NSOperationQueue *queue = [[NSOperationQueue alloc] init];
         
         [NSURLConnection sendAsynchronousRequest:request2 queue:queue completionHandler:^(NSURLResponse *resp, NSData *data, NSError *error) {
-            id response = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-            NSLog(@"response: %@", response);
             
         }];
     }];
@@ -166,7 +161,6 @@
         NSOperationQueue *queue = [[NSOperationQueue alloc] init];
         
         [NSURLConnection sendAsynchronousRequest:request2 queue:queue completionHandler:^(NSURLResponse *resp, NSData *data, NSError *error) {
-            NSLog(@"new message for student: %@. message: %@", student.firstName, message);
             
         }];
     }];
@@ -182,14 +176,19 @@
 - (BOOL) sendMessageToAllStudents: (NSString *) message inCourse: (Course *) course
 {
     for (int i = 0; i < [[course students] count]; i++) {
-        NSString *firstname = [[[course students] objectAtIndex:i] valueForKeyPath:@"firstname"];
-        NSString *lastname = [[[course students] objectAtIndex:i] valueForKeyPath:@"lastname"];
-        Student *s = [[Student alloc] initWithFirstName:firstname LastName:lastname Age:0];
-        s.type = [[[course students] objectAtIndex:i] valueForKeyPath:@"type"];
-        s.messages = [[[course students] objectAtIndex:i] valueForKeyPath:@"messages"];
-        [self sendMessage:message ToStudent:s];
+        NSString *firstname = [[[course students] objectAtIndex:i] firstName];
+        NSString *lastname = [[[course students] objectAtIndex:i] lastName];
+        float studentAge = [[[course students] objectAtIndex:i] age];
+        Student *student = [[Student alloc] initWithFirstName:firstname LastName:lastname Age:studentAge];
+        student.type = [[[course students] objectAtIndex:i] type];
+        student.messages = [[[course students] objectAtIndex:i] messages];
+        BOOL result = [self sendMessage:message ToStudent:student];
+        
+        if (result) {
+            return YES;
+        }
     }
-    return YES;
+    return NO;
 }
 
 - (BOOL) validateString: (NSString *) string

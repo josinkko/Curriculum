@@ -61,7 +61,6 @@
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
     [request setValue:@"application/json" forHTTPHeaderField:@"content-type"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Application"];
     
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
 
@@ -115,6 +114,7 @@
     }];
     
 }
+
 
 
 @end
