@@ -29,6 +29,25 @@
     return self;
 }
 
-
+- (NSDictionary *) courseToDict
+{
+    NSString *coursename = self.courseName;
+    NSArray *componentsSeparatedByWhiteSpace = [coursename componentsSeparatedByString:@" "];
+    if ([componentsSeparatedByWhiteSpace count] > 1) {
+        NSLog(@"Error in saving course to DB: No whitespaces allowed in coursename. Please correct and try again.");
+        return NO;
+    }
+    
+    NSMutableDictionary *stringAsJson = [[NSMutableDictionary alloc] init];
+    stringAsJson[@"type"] = @"course";
+    stringAsJson[@"startdate"] = self.startDate;
+    stringAsJson[@"enddate"] = self.endDate;
+    stringAsJson[@"students"] = [self students];
+    stringAsJson[@"sessions"] = [self classes];
+    stringAsJson[@"coursename"] = coursename;
+    stringAsJson[@"teacher"] = self.teacher;
+    
+    return stringAsJson;
+}
 
 @end

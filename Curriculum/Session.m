@@ -22,4 +22,15 @@
     }
     return self;
 }
+
+- (NSDictionary *) sessionToDict
+{
+    NSMutableDictionary *sessionAsJson = [[NSMutableDictionary alloc] init];
+    sessionAsJson[@"type"] = self.type;
+    sessionAsJson[@"time"] = self.time;
+    sessionAsJson[@"books"] = self.books;
+    sessionAsJson[@"course"] = self.course;
+    
+    return sessionAsJson;
+}
 @end

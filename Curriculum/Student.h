@@ -20,5 +20,5 @@
 
 
 -(id) initWithFirstName: (NSString *) firstName LastName: (NSString *) lastName Age: (float) age;
-
+- (NSDictionary *) studentToDict;
 @end

@@ -13,138 +13,30 @@
 
 @implementation AdminService
 
-- (BOOL) addAdministrator:(Admin *) admin
-{
-    NSMutableDictionary *stringAsJson = [[NSMutableDictionary alloc] init];
-    stringAsJson[@"type"] = admin.type;
-    stringAsJson[@"firstname"] = admin.firstName;
-    stringAsJson[@"lastname"] = admin.lastName;
-    stringAsJson[@"adminID"] = admin.adminId;
-    
-    NSURL *url = [NSURL URLWithString:@"http://127.0.0.1:5984/curriculumlocal"];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
-    
-    NSData *postdata = [NSJSONSerialization dataWithJSONObject:stringAsJson options:0 error:nil];
-    
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"content-type"];
-    [request setHTTPBody:postdata];
-    NSURLResponse *resp;
-    NSError *err;
-    
-    [NSURLConnection sendSynchronousRequest:request returningResponse:&resp error:&err];
-    
-    if (err == nil) {
-        return YES;
-    } else {
-        return NO;
-    }
-}
-
 - (BOOL) addStudent: (Student*) student toCourse: (Course *) course
 {
-    
-    NSMutableDictionary *studentAsDict = [[NSMutableDictionary alloc] init];
-    studentAsDict[@"type"] = student.type;
-    studentAsDict[@"firstname"] = student.firstName;
-    studentAsDict[@"lastname"] = student.lastName;
-    studentAsDict[@"studentID"] = student.studentId;
-    studentAsDict[@"messages"] = [student messages];
-    [studentAsDict setObject:[NSNumber numberWithFloat:student.age] forKey:@"age"];
-    
-    [[student courses] addObject:course.courseName];
+    NSDictionary *studentAsDict = [student studentToDict];
     [[course students] addObject:studentAsDict];
-
-    for (int i = 0; i < [[course students] count]; i++) {
-        if ([[[[course students] objectAtIndex:i] valueForKeyPath:@"firstname"] isEqualToString:[student firstName]]) {
-            return YES;
-        } else {
-            return NO;
-        }
+    if ([[course students] containsObject:studentAsDict]) {
+        NSLog(@"succesfully added student to course");
+        return YES;
     }
+    return NO;
 }
 
 - (BOOL) addSession: (Session*) session toCourse: (Course *) course
 {
-    NSMutableDictionary *classAsDict = [[NSMutableDictionary alloc] init];
-    classAsDict[@"type"] = session.type;
-    classAsDict[@"coursename"] = session.course;
-    classAsDict[@"time"] = session.time;
-    classAsDict[@"books"] = session.books;
+    NSDictionary *sessionAsDict = [session sessionToDict];
+    [[course classes] addObject:sessionAsDict];
     
-    [[course classes] addObject:classAsDict];
-    
-    if ([[course classes] containsObject:classAsDict]) {
+    if ([[course classes] containsObject:sessionAsDict]) {
+        NSLog(@"sucessfully added sess to course");
         return YES;
-    } else {
-        return NO;
     }
+    return NO;
 }
-- (BOOL) saveCourseToDb: (Course *) course
-{
-    NSString *coursename = course.courseName;
-    NSArray *componentsSeparatedByWhiteSpace = [coursename componentsSeparatedByString:@" "];
-    if ([componentsSeparatedByWhiteSpace count] > 1) {
-        NSLog(@"Error in saving course to DB: No whitespaces allowed in coursename. Please correct and try again.");
-        return NO;
-    }
-    
-    NSMutableDictionary *stringAsJson = [[NSMutableDictionary alloc] init];
-    stringAsJson[@"type"] = @"course";
-    stringAsJson[@"startdate"] = course.startDate;
-    stringAsJson[@"enddate"] = course.endDate;
-    stringAsJson[@"students"] = [course students];
-    stringAsJson[@"sessions"] = [course classes];
-    stringAsJson[@"coursename"] = coursename;
-    stringAsJson[@"teacher"] = course.teacher;
-    
-    NSURL *url = [NSURL URLWithString:@"http://127.0.0.1:5984/curriculumlocal"];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
-    
-    NSData *postdata = [NSJSONSerialization dataWithJSONObject:stringAsJson options:0 error:nil];
-    
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"content-type"];
-    [request setHTTPBody:postdata];
-    NSURLResponse *resp;
-    NSError *err;
-    
-    [NSURLConnection sendSynchronousRequest:request returningResponse:&resp error:&err];
-    
-    if (err == nil) {
-        return YES;
-    } else {
-        return NO;
-    }
-    
-}
-- (BOOL) saveSessionToDb: (Session *) session
-{
-    NSMutableDictionary *stringAsJson = [[NSMutableDictionary alloc] init];
-    stringAsJson[@"type"] = session.type;
-    stringAsJson[@"time"] = session.time;
-    stringAsJson[@"books"] = session.books;
-    stringAsJson[@"course"] = session.course;
 
-    NSURL *url = [NSURL URLWithString:@"http://127.0.0.1:5984/curriculumlocal"];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
-    NSData *postdata = [NSJSONSerialization dataWithJSONObject:stringAsJson options:0 error:nil];
-    
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"content-type"];
-    [request setHTTPBody:postdata];
-    NSURLResponse *resp;
-    NSError *err;
-    
-    [NSURLConnection sendSynchronousRequest:request returningResponse:&resp error:&err];
-    
-    if (err == nil) {
-        return YES;
-    } else {
-        return NO;
-    }
-}
-- (void) updateCourseInDb: (Course *) course withStudent: (Student *) student andSession: (Session *) session usingHttpMethod: (NSString*) httpMethod removeOrAdd: (NSString *) removeoradd
+- (void) updateCourseInDb: (Course *) course withStudent: (Student *) student andSession: (Session *) session removeOrAdd: (NSString *) removeoradd
 {
     
     NSMutableString *urlstring = [[NSMutableString alloc] init];
@@ -210,7 +102,7 @@
         
         NSData *responseAsJSON = [NSJSONSerialization dataWithJSONObject:stringAsJson options:NSJSONWritingPrettyPrinted error:nil];
 
-        [request2 setHTTPMethod:httpMethod];
+        [request2 setHTTPMethod:@"PUT"];
         [request2 setValue:@"application/json" forHTTPHeaderField:@"content-type"];
         [request2 setHTTPBody:responseAsJSON];
         
@@ -223,6 +115,7 @@
         }];
     }];
 }
+
 - (BOOL) sendMessage: (NSString *) message ToStudent: (Student *) student
 {
 

@@ -13,8 +13,6 @@
 
 @interface StudentService : NSObject
 
-
-- (BOOL) saveStudentToDb:(Student *) student;
 - (void) viewTodaysSchedule: (Student *) student forCourse: (Course *) course completionHandler:(void(^)(NSArray *sessionsToday)) sessions;
 - (void) viewScheduleForWeek: (Student *) student forCourse: (Course *) course completionHandler:(void(^)(NSArray *sessionThisWeek)) sessions;
 

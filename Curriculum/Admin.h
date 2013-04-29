@@ -10,10 +10,12 @@
 
 
 @interface Admin : NSObject
+@property (nonatomic, copy) NSString *password;
 @property (nonatomic, copy) NSString *type;
 @property (nonatomic, copy) NSString *firstName;
 @property (nonatomic, copy) NSString *lastName;
 @property (nonatomic) NSString *adminId;
 
-- (id) initWithFirstName: (NSString*) firstname LastName: (NSString*) lastname;
+- (id) initWithFirstName: (NSString*) firstname LastName: (NSString*) lastname andPassWord: (NSString *) pass;
+- (NSDictionary *) adminToDict;
 @end

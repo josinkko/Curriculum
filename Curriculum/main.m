@@ -13,6 +13,7 @@
 #import "Course.h"
 #import "AdminService.h"
 #import "Session.h"
+#import "Request.h"
 
 int main(int argc, const char * argv[])
 {
@@ -35,11 +36,11 @@ int main(int argc, const char * argv[])
         //Course *math = [[Course alloc] initWithName:@"math 1" andStartDate:@"5/15/2013 9:15 AM" andEndDate:@"6/15/2013 3:15 PM" andTeacher:@"goran"];
         //Course *english = [[Course alloc] initWithName:@"english1" andStartDate:@"5/15/2013 9:15 AM" andEndDate:@"6/15/2013 3:15 PM" andTeacher:@"hästen göran"];
 
-        // ---------- Saving students to Db
-        //[new saveStudentToDb:s1];
-        //[new saveStudentToDb:s2];
-        //[new saveStudentToDb:s3];
-        //[new saveStudentToDb:s4];
+        // ---------- Creating a Request-object for making post-request to the database
+        //Request *req = [[Request alloc] init];
+        
+        // ---------- Posting to Db with a Nsdict object as a parametre
+        //[req postToDatabase:[s1 studentToDict]];
         
         // ---------- Admin adding students to courses
         //[newadminservice addStudent:s4 toCourse:math];
@@ -57,29 +58,29 @@ int main(int argc, const char * argv[])
         //Session *ses6 = [[Session alloc] initWithCourse:english andTime:@"4/21/2013 2:15 PM" andBooks:@"hästboken"];
         
         // ---------- saves session to Db
-        //[newadminservice saveSessionToDb:ses1];
+        //[req postToDatabase:[ses1 sessionToDict]];
         
         // ---------- adding session to local course object
         //[newadminservice addSession:ses1 toCourse:math];
         
-        //[newadminservice saveSessionToDb:ses2];
+        //[req postToDatabase:[ses2 sessionToDict]];
         //[newadminservice addSession:ses2 toCourse:math];
         
-        //[newadminservice saveSessionToDb:ses3];
+        //[req postToDatabase:[ses3 sessionToDict]];
         //[newadminservice addSession:ses3 toCourse:math];
         
-        //[newadminservice saveSessionToDb:ses4];
+        //[req postToDatabase:[ses4 sessionToDict]];
         //[newadminservice addSession:ses4 toCourse:english];
         
-        //[newadminservice saveSessionToDb:ses5];
+        //[req postToDatabase:[ses5 sessionToDict]];
         //[newadminservice addSession:ses5 toCourse:english];
         
-        //[newadminservice saveSessionToDb:ses6];
+        //[req postToDatabase:[ses6 sessionToDict]];
         //[newadminservice addSession:ses6 toCourse:english];
         
-        // ---------- Saving course to Db using POST
-        //[newadminservice saveCourseToDb:english withHttpMethod:@"POST"]; 
-        //[newadminservice saveCourseToDb:math withHttpMethod:@"POST"];
+        // ---------- Saving course to Db 
+        //[req postToDatabase:[english courseToDict]];
+        //[req postToDatabase:[math courseToDict]];
 
         
         // ---------- To view either schedule and reading instructions for today or for one week starting today
@@ -111,9 +112,6 @@ int main(int argc, const char * argv[])
         // ---------- Putting message on a property called "messages" on the given student document.
         //[newadminservice sendMessageToAllStudents:@"hej alla studenter" inCourse:english];
     
-        
-        
-        
         
         
     }

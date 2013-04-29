@@ -19,5 +19,5 @@
 @property (nonatomic, copy) NSString *books;
 
 - (id) initWithCourse: (Course *) Course andTime: (NSString *) Time andBooks: (NSString *) Books;
-
+- (NSDictionary *) sessionToDict;
 @end

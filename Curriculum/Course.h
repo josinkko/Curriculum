@@ -20,7 +20,7 @@
 @property (nonatomic, copy) NSString *courseName;
 
 - (id) initWithName: (NSString *) coursename andStartDate: (NSString *) startdate andEndDate: (NSString *) enddate andTeacher: (NSString *) Teacher;
-
+- (NSDictionary *) courseToDict;
 
 
 @end

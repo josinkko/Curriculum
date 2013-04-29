@@ -14,41 +14,6 @@
 #include "math.h"
 
 @implementation StudentService
-- (NSArray *) getAllStudents
-{
-    return nil;
-}
-- (BOOL) saveStudentToDb:(Student *) student
-{
-    NSMutableDictionary *stringAsJson = [[NSMutableDictionary alloc] init];
-    stringAsJson[@"type"] = student.type;
-    stringAsJson[@"firstname"] = student.firstName;
-    stringAsJson[@"lastname"] = student.lastName;
-    stringAsJson[@"studentID"] = student.studentId;
-    [stringAsJson setObject:[NSNumber numberWithFloat:student.age] forKey:@"age"];
-    stringAsJson[@"courses"] = [student courses];
-    stringAsJson[@"messages"] = [student messages];
-    
-    NSURL *url = [NSURL URLWithString:@"http://127.0.0.1:5984/curriculumlocal"];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
-
-    NSData *postdata = [NSJSONSerialization dataWithJSONObject:stringAsJson options:0 error:nil];
-    
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"content-type"];
-    [request setHTTPBody:postdata];
-    
-    NSURLResponse *resp;
-    NSError *err;
-    
-    [NSURLConnection sendSynchronousRequest:request returningResponse:&resp error:&err];
-    if (err == nil) {
-        NSLog(@"saved student to Db.");
-        return YES;
-    } else {
-        return NO;
-    }
-}
 
 - (void) viewTodaysSchedule: (Student *) student forCourse: (Course *) course completionHandler:(void(^)(NSArray *responseData)) callback
 {

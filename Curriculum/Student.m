@@ -44,4 +44,19 @@
     return self;
 }
 
+- (NSDictionary *) studentToDict
+{
+    NSMutableDictionary *studentAsJson = [[NSMutableDictionary alloc] init];
+    
+    studentAsJson[@"type"] = self.type;
+    studentAsJson[@"firstname"] = self.firstName;
+    studentAsJson[@"lastname"] = self.lastName;
+    studentAsJson[@"studentID"] = self.studentId;
+    [studentAsJson setObject:[NSNumber numberWithFloat:self.age] forKey:@"age"];
+    studentAsJson[@"courses"] = [self courses];
+    studentAsJson[@"messages"] = [self messages];
+    
+    return studentAsJson;
+}
+
 @end
