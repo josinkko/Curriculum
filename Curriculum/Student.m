@@ -21,8 +21,8 @@
     }
     
     AdminService *admin = [[AdminService alloc] init];
-    BOOL firstnameValidation = [admin validateString:firstName];
-    BOOL lastnameValidation = [admin validateString:lastName];
+    BOOL firstnameValidation = [admin validateString:firstname];
+    BOOL lastnameValidation = [admin validateString:lastname];
     
     if (!firstnameValidation) {
         return NO;
@@ -38,13 +38,12 @@
         self.age = Age;
         self->studentId = [[NSUUID UUID] UUIDString];
         self.type = @"student";
-        self.courses = [[NSMutableArray alloc] init];
         self.messages = [[NSMutableArray alloc] init];
     }
     return self;
 }
 
-- (NSDictionary *) studentToDict
+- (NSDictionary *) toDictionary;
 {
     NSMutableDictionary *studentAsJson = [[NSMutableDictionary alloc] init];
     
@@ -53,10 +52,11 @@
     studentAsJson[@"lastname"] = self.lastName;
     studentAsJson[@"studentID"] = self.studentId;
     [studentAsJson setObject:[NSNumber numberWithFloat:self.age] forKey:@"age"];
-    studentAsJson[@"courses"] = [self courses];
     studentAsJson[@"messages"] = [self messages];
     
     return studentAsJson;
 }
+
+
 
 @end

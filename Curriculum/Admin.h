@@ -17,5 +17,5 @@
 @property (nonatomic) NSString *adminId;
 
 - (id) initWithFirstName: (NSString*) firstname LastName: (NSString*) lastname andPassWord: (NSString *) pass;
-- (NSDictionary *) adminToDict;
+- (NSDictionary *) toDictionary;
 @end

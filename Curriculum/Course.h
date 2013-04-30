@@ -18,9 +18,10 @@
 @property (nonatomic, copy) NSString *endDate;
 @property (nonatomic, copy) NSString *teacher;
 @property (nonatomic, copy) NSString *courseName;
+@property (nonatomic, copy) NSString *type;
 
 - (id) initWithName: (NSString *) coursename andStartDate: (NSString *) startdate andEndDate: (NSString *) enddate andTeacher: (NSString *) Teacher;
-- (NSDictionary *) courseToDict;
+- (NSDictionary *) toDictionary;
 
 
 @end

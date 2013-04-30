@@ -10,15 +10,15 @@
 
 @interface Student : NSObject
 
-@property NSMutableArray *courses;
 @property NSMutableArray *messages;
 @property (nonatomic, copy) NSString *type;
 @property (nonatomic, copy) NSString *firstName;
 @property (nonatomic, copy) NSString *lastName;
 @property (nonatomic) float age;
-@property (nonatomic, copy, readonly) NSString *studentId;
+@property (nonatomic, copy) NSString *studentId;
 
 
 -(id) initWithFirstName: (NSString *) firstName LastName: (NSString *) lastName Age: (float) age;
-- (NSDictionary *) studentToDict;
+- (NSDictionary *) toDictionary;
+
 @end

@@ -23,7 +23,7 @@
     }
     return self;
 }
-- (NSDictionary *) adminToDict
+- (NSDictionary *) toDictionary
 {
     NSMutableDictionary *adminAsJson = [[NSMutableDictionary alloc] init];
     adminAsJson[@"type"] = self.type;

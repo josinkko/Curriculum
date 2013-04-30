@@ -14,10 +14,17 @@
 #import "Session.h"
 #import "Course.h"
 
-@interface Request : NSObject
-- (BOOL) postToDatabase: (NSDictionary *) postdata;
+@interface Couch : NSObject
+
+@property NSString *url;
+@property NSOperationQueue *queue;
+@property BOOL result;
+
+- (void) postToDatabase: (NSDictionary *) postdata completionHandler:(void(^)(NSMutableDictionary *resp)) response;
 - (void) getWithView: (NSString *) view andKey: (NSString *) key completionHandler:(void(^)(NSArray *response)) response;
 - (void) getWithView: (NSString *) view completionHandler:(void(^)(NSArray *response)) response;
-
+- (Student *) jsonToStudent: (NSDictionary *) studentAsDict;
+- (Session *) jsonToSession: (NSDictionary *) sessionAsDict;
+- (Course *) jsonToCourse: (NSDictionary *) courseAsDict;
 
 @end

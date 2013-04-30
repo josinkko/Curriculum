@@ -10,13 +10,26 @@
 #import "Admin.h"
 #import "Student.h"
 #import "Course.h"
+#import "Couch.h"
+
 
 @implementation AdminService
 
+- (id) initWithAdmin: (Admin *) administrator;
+{
+    self = [super init];
+    if (self) {
+        self.admin = administrator;
+        self.allStudents = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
 - (BOOL) addStudent: (Student*) student toCourse: (Course *) course
 {
-    NSDictionary *studentAsDict = [student studentToDict];
+    NSDictionary *studentAsDict = [student toDictionary];
     [[course students] addObject:studentAsDict];
+    [[self allStudents] addObject:student];
     if ([[course students] containsObject:studentAsDict]) {
         return YES;
     }
@@ -25,7 +38,7 @@
 
 - (BOOL) addSession: (Session*) session toCourse: (Course *) course
 {
-    NSDictionary *sessionAsDict = [session sessionToDict];
+    NSDictionary *sessionAsDict = [session toDictionary];
     [[course classes] addObject:sessionAsDict];
     
     if ([[course classes] containsObject:sessionAsDict]) {
@@ -33,6 +46,8 @@
     }
     return NO;
 }
+
+
 
 - (void) updateCourseInDb: (Course *) course withStudent: (Student *) student andSession: (Session *) session removeOrAdd: (NSString *) removeOrAdd
 {
@@ -113,22 +128,8 @@
 
 - (BOOL) sendMessage: (NSString *) message ToStudent: (Student *) student
 {
-
-    NSMutableString *urlstring = [[NSMutableString alloc] init];
-    [urlstring appendString:@"http://127.0.0.1:5984/curriculumlocal/_design/myapp/_list/getvalues/students?startkey=%22"];
-    NSString *studentName = student.firstName;
-    [urlstring appendString:studentName];
-    [urlstring appendString:@"%22&endkey=%22"];
-    [urlstring appendString:studentName];
-    [urlstring appendString:@"%22"];
-    
-    NSURL *url = [NSURL URLWithString:urlstring];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
-    
-    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-    
-    [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *resp, NSData *data, NSError *error) {
-        id response = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    Couch *helper = [[Couch alloc] init];
+    [helper getWithView:@"students" andKey:[student firstName] completionHandler:^(NSArray *response) {
         
         NSString *ID = [[response objectAtIndex:0] valueForKeyPath:@"_id"];
         NSString *revisionNumber = [[response objectAtIndex:0] valueForKeyPath:@"_rev"];
@@ -141,7 +142,7 @@
         
         NSURL *url = [NSURL URLWithString:urlstring2];
         NSMutableURLRequest *request2 = [[NSMutableURLRequest alloc]initWithURL:url];
-
+        
         [[student messages] addObject:message];
         
         NSMutableDictionary *stringAsJson = [[NSMutableDictionary alloc] init];
@@ -176,19 +177,28 @@
 - (BOOL) sendMessageToAllStudents: (NSString *) message inCourse: (Course *) course
 {
     for (int i = 0; i < [[course students] count]; i++) {
-        NSString *firstname = [[[course students] objectAtIndex:i] firstName];
-        NSString *lastname = [[[course students] objectAtIndex:i] lastName];
-        float studentAge = [[[course students] objectAtIndex:i] age];
-        Student *student = [[Student alloc] initWithFirstName:firstname LastName:lastname Age:studentAge];
-        student.type = [[[course students] objectAtIndex:i] type];
-        student.messages = [[[course students] objectAtIndex:i] messages];
-        BOOL result = [self sendMessage:message ToStudent:student];
+        Couch *couch = [[Couch alloc] init];
+        Student *s = [couch jsonToStudent:[[course students] objectAtIndex:i]];
+        BOOL result = [self sendMessage:message ToStudent:s];
         
         if (result) {
             return YES;
         }
     }
     return NO;
+}
+
+- (BOOL) sendMessageToAllStudents: (NSString *) message
+{
+    Couch *helper = [[Couch alloc] init];
+    [helper getWithView:@"students" completionHandler:^(NSArray *response) {
+        for (id student in response) {
+            Student *s = [helper jsonToStudent:student];
+            [self sendMessage:message ToStudent:s];
+        }
+    }];
+    
+    return YES;
 }
 
 - (BOOL) validateString: (NSString *) string
@@ -203,7 +213,7 @@
     
     long number = [detectedNumbers integerValue];
     if (number) {
-        NSLog(@"No numbers are allowed in strings. Please correct");
+        NSLog(@"No numbers are allowed in names. Please correct");
         return NO;
     } else {
         return YES;

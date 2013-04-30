@@ -13,7 +13,7 @@
 #import "AdminService.h"
 #import "Course.h"
 #import "Session.h"
-#import "Request.h"
+#import "Couch.h"
 
 @implementation CurriculumTests
 {
@@ -24,7 +24,7 @@
     Course *course1;
     Session *session1;
     Session *session2;
-    Request *request;
+    Couch *request;
     
 
 }
@@ -37,13 +37,14 @@
     course1 = [[Course alloc] initWithName:@"math1" andStartDate:@"5/15/2013 9:15 AM" andEndDate:@"6/15/2013 3:15 PM" andTeacher:@"goran"];
     session1 = [[Session alloc] initWithCourse:course1 andTime:@"4/21/2013 2:15 PM" andBooks:@"hästboken"];
     session2 = [[Session alloc] initWithCourse:course1 andTime:@"4/23/2013 2:15 PM" andBooks:@"hästboken"];
-    request = [[Request alloc] init];
+    request = [[Couch alloc] init];
     
 
 }
 
 - (void)tearDown
 {
+    [[NSRunLoop currentRunLoop]runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
     student1 = nil;
     admin1 = nil;
     studentService1 = nil;
@@ -56,23 +57,33 @@
 
 - (void)testSaveStudentToDb
 {
-    NSDictionary *student = [student1 studentToDict];
-    BOOL result = [request postToDatabase:student];
-    STAssertEquals(result, YES, @"result should be equal to YES, true");
+    NSDictionary *student = [student1 toDictionary];
+    [request postToDatabase:student completionHandler:^(NSMutableDictionary *resp) {
+        NSInteger result = [[resp valueForKeyPath:@"ok"] integerValue];
+        NSInteger isTrue = 1;
+        STAssertEquals(result, isTrue, @"result should be equal to 1 if posted to Db.");
+    }];
+    
 }
 
 - (void) testSaveCourseToDb
 {
-    NSDictionary *course = [course1 courseToDict];
-    BOOL result = [request postToDatabase:course];
-    STAssertTrue(result, @"result should be true if succesfully saved to DB.");
+    NSDictionary *course = [course1 toDictionary];
+    [request postToDatabase:course completionHandler:^(NSMutableDictionary *resp) {
+        NSInteger result = [[resp valueForKeyPath:@"ok"] integerValue];
+        NSInteger isTrue = 1;
+        STAssertEquals(result, isTrue, @"result should be equal to 1 if posted to Db.");
+    }];
 }
 
 - (void) testSaveSessionToDb
 {
-    NSDictionary *session = [session1 sessionToDict];
-    BOOL result = [request postToDatabase:session];
-    STAssertTrue(result, @"result should be true if succesfully saved to DB.");
+    NSDictionary *session = [session1 toDictionary];
+    [request postToDatabase:session completionHandler:^(NSMutableDictionary *resp) {
+        NSInteger result = [[resp valueForKeyPath:@"ok"] integerValue];
+        NSInteger isTrue = 1;
+        STAssertEquals(result, isTrue, @"result should be equal to 1 if posted to Db.");
+    }];
 }
 
 - (void) testValidateString

@@ -13,12 +13,13 @@
 
 
 @implementation Course
-@synthesize startDate, endDate, teacher, courseName;
+@synthesize startDate, endDate, teacher, courseName, type, classes, students;
 
 - (id) initWithName: (NSString *) coursename andStartDate: (NSString *) startdate andEndDate: (NSString *) enddate andTeacher: (NSString *) Teacher 
 {
     self = [super init];
     if (self) {
+        self.type = @"course";
         self.startDate = startdate;
         self.endDate = enddate;
         self.teacher = Teacher;
@@ -29,7 +30,7 @@
     return self;
 }
 
-- (NSDictionary *) courseToDict
+- (NSDictionary *) toDictionary;
 {
     NSString *coursename = self.courseName;
     NSArray *componentsSeparatedByWhiteSpace = [coursename componentsSeparatedByString:@" "];

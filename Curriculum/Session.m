@@ -23,7 +23,7 @@
     return self;
 }
 
-- (NSDictionary *) sessionToDict
+- (NSDictionary *) toDictionary
 {
     NSMutableDictionary *sessionAsJson = [[NSMutableDictionary alloc] init];
     sessionAsJson[@"type"] = self.type;
@@ -33,4 +33,5 @@
     
     return sessionAsJson;
 }
+
 @end

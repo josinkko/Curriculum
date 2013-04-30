@@ -11,7 +11,9 @@
 #import "Admin.h"
 #import "Course.h"
 #import "AdminService.h"
+#import "Couch.h"
 #include "math.h"
+
 
 @implementation StudentService
 
@@ -114,7 +116,17 @@
     }];
     
 }
-
+/*- (NSMutableArray *) readMessageForStudent: (Student *) student
+{
+    NSMutableArray *messages = [[NSMutableArray alloc] init];
+    Request *req = [[Request alloc] init];
+    [req getWithView:@"messages" andKey:[student firstName] completionHandler:^(NSArray *response) {
+        for (id message in response) {
+            [messages addObject:message];
+        }
+    }];
+    
+}*/
 
 
 @end

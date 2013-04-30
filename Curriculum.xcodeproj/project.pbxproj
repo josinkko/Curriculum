@@ -27,8 +27,8 @@
 		B24A0DBE17259094008296BF /* Admin.m in Sources */ = {isa = PBXBuildFile; fileRef = B207DB5617114D5E0046B26E /* Admin.m */; };
 		B24A0DBF17259099008296BF /* Course.m in Sources */ = {isa = PBXBuildFile; fileRef = B207DB5917114D6C0046B26E /* Course.m */; };
 		B24A0DC0172590A1008296BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B207DB47171148B70046B26E /* main.m */; };
-		B24A0DC3172A9FB6008296BF /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = B24A0DC2172A9FB6008296BF /* Request.m */; };
-		B24A0DC4172AB347008296BF /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = B24A0DC2172A9FB6008296BF /* Request.m */; };
+		B24A0DC3172A9FB6008296BF /* Couch.m in Sources */ = {isa = PBXBuildFile; fileRef = B24A0DC2172A9FB6008296BF /* Couch.m */; };
+		B24A0DC4172AB347008296BF /* Couch.m in Sources */ = {isa = PBXBuildFile; fileRef = B24A0DC2172A9FB6008296BF /* Couch.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -73,8 +73,8 @@
 		B24A0DB317258B14008296BF /* CurriculumTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CurriculumTests.h; sourceTree = "<group>"; };
 		B24A0DB417258B14008296BF /* CurriculumTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CurriculumTests.m; sourceTree = "<group>"; };
 		B24A0DB617258B14008296BF /* CurriculumTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CurriculumTests-Prefix.pch"; sourceTree = "<group>"; };
-		B24A0DC1172A9FB6008296BF /* Request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Request.h; sourceTree = "<group>"; };
-		B24A0DC2172A9FB6008296BF /* Request.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Request.m; sourceTree = "<group>"; };
+		B24A0DC1172A9FB6008296BF /* Couch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Couch.h; sourceTree = "<group>"; };
+		B24A0DC2172A9FB6008296BF /* Couch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Couch.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,8 +140,8 @@
 				B207DB5317114D4F0046B26E /* Student.m */,
 				B207DB5B171150120046B26E /* StudentService.h */,
 				B207DB5C171150120046B26E /* StudentService.m */,
-				B24A0DC1172A9FB6008296BF /* Request.h */,
-				B24A0DC2172A9FB6008296BF /* Request.m */,
+				B24A0DC1172A9FB6008296BF /* Couch.h */,
+				B24A0DC2172A9FB6008296BF /* Couch.m */,
 				B207DB5517114D5E0046B26E /* Admin.h */,
 				B207DB5617114D5E0046B26E /* Admin.m */,
 				B207DB5817114D6C0046B26E /* Course.h */,
@@ -294,7 +294,7 @@
 				B207DB5D171150120046B26E /* StudentService.m in Sources */,
 				B207DB60171169320046B26E /* AdminService.m in Sources */,
 				B207DB631713011E0046B26E /* Session.m in Sources */,
-				B24A0DC3172A9FB6008296BF /* Request.m in Sources */,
+				B24A0DC3172A9FB6008296BF /* Couch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,7 +302,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B24A0DC4172AB347008296BF /* Request.m in Sources */,
+				B24A0DC4172AB347008296BF /* Couch.m in Sources */,
 				B24A0DC0172590A1008296BF /* main.m in Sources */,
 				B24A0DBF17259099008296BF /* Course.m in Sources */,
 				B24A0DBE17259094008296BF /* Admin.m in Sources */,
@@ -459,6 +459,7 @@
 				B24A0DB917258B14008296BF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
