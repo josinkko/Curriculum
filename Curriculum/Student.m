@@ -50,7 +50,7 @@
     studentAsJson[@"type"] = self.type;
     studentAsJson[@"firstname"] = self.firstName;
     studentAsJson[@"lastname"] = self.lastName;
-    studentAsJson[@"studentID"] = self.studentId;
+    studentAsJson[@"studentId"] = self.studentId;
     [studentAsJson setObject:[NSNumber numberWithFloat:self.age] forKey:@"age"];
     studentAsJson[@"messages"] = [self messages];
     

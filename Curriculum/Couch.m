@@ -95,7 +95,6 @@
 
     [NSURLConnection sendAsynchronousRequest:request queue:[self queue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         NSMutableDictionary *resAsJSON = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        NSLog(@"%@",[resAsJSON valueForKeyPath:@"ok"]);
         callback(resAsJSON);
     }];
     
